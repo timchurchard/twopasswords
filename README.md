@@ -3,7 +3,7 @@
 A simple CLI and python module to make a secure Bitcoin wallet from two passwords.
 - Make seed and wallet
 - Show address(es) by number
-- Supports Bitcoin, Litecoin, Dogecoin
+- Supports Bitcoin
 - Supports Legacy, P2SH Segwit & Segwit
 
 *WARNING* Do Not Use this unless you understand the code !! I am not responsible for any funds you lose. *WARNING*
@@ -61,7 +61,7 @@ twop address --password="qwerty1" --second="password" --num=0
 
 ## Challenge
 
-On 20/08/2020 I made a wallet: bc1qljvqcfekqfcg7tschdmny6qnd6w47md8c62czm with 0.01 BTC
+On 20/08/2020 I made a wallet: [bc1qljvqcfekqfcg7tschdmny6qnd6w47md8c62czm](https://blockchair.com/bitcoin/address/bc1qljvqcfekqfcg7tschdmny6qnd6w47md8c62czm) with 0.01 BTC
 
 Both passwords are 6 characters long and contain only a-z lowercase.
 
