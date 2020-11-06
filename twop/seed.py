@@ -29,7 +29,7 @@ def make_salt(password: bytes, iterations: int = DEF_ITS_SALT) -> bytes:
 SeedResult = namedtuple('SeedResult', 'bytes hex mnemonic')
 
 
-def make_seed(password: bytes, salt: bytes, iterations: int = MIN_ITS_PBKDF2, language: str = 'english') -> SeedResult:
+def make_seed(password: bytes, salt: bytes, iterations: int = DEF_ITS_PBKDF2, language: str = 'english') -> SeedResult:
     """make_seed: Takes password and salt and returns namedtuple
     """
     if len(password) < MIN_LEN_PASSWORD:
