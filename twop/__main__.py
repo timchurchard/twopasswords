@@ -1,6 +1,6 @@
 # Copyright Tim Churchard 2020
 
-from .const import ERROR, OK
+from .const import ERROR, OK, DEF_ITS_PBKDF2
 from .seed import make_salt, make_seed
 from .wallet import make_address
 
@@ -15,17 +15,18 @@ def main():
 
 @click.command()
 @click.option('--password', help='Password for seed')
-def seed(password: str):
+@click.option('--iterations', default=DEF_ITS_PBKDF2, help='Number of iterations for PBKDF2')
+def seed(password: str, iterations: int):
     password_bytes = password.encode('utf8')
 
     try:
-        salt = make_salt(password_bytes)
+        salt = make_salt(password_bytes, iterations=iterations)
     except ValueError as exc:
         print(exc)
         return ERROR
 
     try:
-        seed = make_seed(password_bytes, salt)
+        seed = make_seed(password_bytes, salt, iterations=iterations)
     except ValueError as exc:
         print(exc)
         return ERROR
