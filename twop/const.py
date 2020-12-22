@@ -4,6 +4,9 @@
 ERROR = 1
 OK = 0
 
+# Default timeout for verbose output
+DEF_VERBOSE_TIME = 60
+
 # Default pbkdf2 iterations
 DEF_ITS_PBKDF2 = 100000
 
