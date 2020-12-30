@@ -53,7 +53,7 @@ Make a seed from a password
 twop seed --password="qwerty1"
 ```
 
-Make a HD wallet and show address n
+Make a HD wallet and show address _n_
 
 ```shell
 twop address --password="qwerty1" --second="password" --num=0

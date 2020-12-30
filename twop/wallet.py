@@ -5,6 +5,7 @@ from collections import namedtuple
 
 electrum = None
 try:
+    import electrum
     from electrum import keystore
     from electrum.storage import WalletStorage
     from electrum.wallet_db import WalletDB
