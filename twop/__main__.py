@@ -2,7 +2,7 @@
 
 from .const import ERROR, OK, DEF_ITS_PBKDF2
 from .seed import make_salt, make_seed
-from .wallet import make_address
+from .wallet import make_address_electrum, make_address_py
 
 import click
 
@@ -44,9 +44,16 @@ def seed(password: str, iterations: int):
 @click.option('--path', default='wallet.db', help='Path to wallet file')
 @click.option('--rm', default=True, help='Remove the electrum wallet file')
 @click.option('--verbose', default=False, help='Verbose mode shows the seed & WIF')
-def address(password, second, iterations, num, script, path, rm, verbose):
-    password_bytes = password.encode('utf8')
+@click.option('--mode', default='python', help='Mode using python cryptotools or electrum')
+def address(password, second, iterations, num, script, path, rm, verbose, mode):
+    if mode not in ('python', 'electrum'):
+        print('Error: Mode must be "python" or "electrum"')
+        return ERROR
+    if mode == 'python' and path != 'wallet.db':
+        print('Error: electrum wallet will not be created in python mode !')
+        return ERROR
 
+    password_bytes = password.encode('utf8')
     try:
         salt, expected_secs = make_salt(password_bytes, iterations=iterations)
     except ValueError as exc:
@@ -61,7 +68,11 @@ def address(password, second, iterations, num, script, path, rm, verbose):
     if verbose:
         print(f'Made seed. Hex = {seed.hex}\n{seed.mnemonic}\n')
 
-    addr = make_address(seed.mnemonic, second, num, script, path, rm)
+    if mode == 'python':
+        addr = make_address_py(seed.mnemonic, second, num, script)
+
+    elif mode == 'electrum':
+        addr = make_address_electrum(seed.mnemonic, second, num, script, path, rm)
 
     print(f'Made address: {addr.num} = {addr.address}')
     if verbose:

@@ -19,22 +19,62 @@ if [[ $out == *"tent bulk about direct silly acoustic erode upset smart decide s
   echo "sanity - 4 - seed password (apple8,12345) seed = OK"
 fi
 
-out=$($CMD address --password apple8 --second orange2)
-if [[ $out == *"bc1q64zn323why9k4nutm63xscx82yufrnqmdun6xp"* ]]; then
-  echo "sanity - 5 - address (apple8,orange2) address = OK"
+out=$($CMD address --password apple8 --second orange2 --mode electrum)
+if [[ $out == *"bc1q6nhhvxkygue0pg89ac96ax2dcphkazmgydc8rc"* ]]; then
+  echo "sanity - 5 electrum - address (apple8,orange2) address = OK"
 fi
 
-out=$($CMD address --password apple8 --second orange2 --num 0)
-if [[ $out == *"bc1q64zn323why9k4nutm63xscx82yufrnqmdun6xp"* ]]; then
-  echo "sanity - 6 - address (apple8,orange2,0) address = OK"
+out=$($CMD address --password apple8 --second orange2 --mode python)
+if [[ $out == *"bc1q6nhhvxkygue0pg89ac96ax2dcphkazmgydc8rc"* ]]; then
+  echo "sanity - 5 python - address (apple8,orange2) address = OK"
 fi
 
-out=$($CMD address --password apple8 --second orange2 --num 1)
-if [[ $out == *"bc1qhgvpf9p97qs5vajdt3shy3hkssrfzh5e47u50z"* ]]; then
-  echo "sanity - 7 - address (apple8,orange2,1) address = OK"
+out=$($CMD address --password apple8 --second orange2 --num 0 --mode electrum)
+if [[ $out == *"bc1q6nhhvxkygue0pg89ac96ax2dcphkazmgydc8rc"* ]]; then
+  echo "sanity - 6 electrum - address (apple8,orange2,0) address = OK"
 fi
 
-out=$($CMD address --password apple8 --second orange2 --iterations 12345)
-if [[ $out == *"bc1qmwd26qurpd2s8j693q3sct5pfkwlnkudu4np4p"* ]]; then
-  echo "sanity - 8 - address (apple8,orange2,0,12345) address = OK"
+out=$($CMD address --password apple8 --second orange2 --num 0 --mode python)
+if [[ $out == *"bc1q6nhhvxkygue0pg89ac96ax2dcphkazmgydc8rc"* ]]; then
+  echo "sanity - 6 python - address (apple8,orange2,0) address = OK"
+fi
+
+out=$($CMD address --password apple8 --second orange2 --num 1 --mode electrum)
+if [[ $out == *"bc1q5xm0fv5v8dmv6kdz42mz6auakp5xstqsc9r5vq"* ]]; then
+  echo "sanity - 7 electrum - address (apple8,orange2,1) address = OK"
+fi
+
+out=$($CMD address --password apple8 --second orange2 --num 1 --mode python)
+if [[ $out == *"bc1q5xm0fv5v8dmv6kdz42mz6auakp5xstqsc9r5vq"* ]]; then
+  echo "sanity - 7 python - address (apple8,orange2,1) address = OK"
+fi
+
+out=$($CMD address --password apple8 --second orange2 --iterations 12345 --mode electrum)
+if [[ $out == *"bc1qzsjra9qf52fu8mggc3637la98yeas2809rpcw9"* ]]; then
+  echo "sanity - 8 electrum - address (apple8,orange2,0,12345) address = OK"
+fi
+
+out=$($CMD address --password apple8 --second orange2 --iterations 12345 --mode python)
+if [[ $out == *"bc1qzsjra9qf52fu8mggc3637la98yeas2809rpcw9"* ]]; then
+  echo "sanity - 8 python - address (apple8,orange2,0,12345) address = OK"
+fi
+
+out=$($CMD address --password apple8 --second orange2 --iterations 12345 --mode electrum --script p2wpkh-p2sh)
+if [[ $out == *"3396HyGWCFA8iTYUdM9jFJnZRfGbSxXPA4"* ]]; then
+  echo "sanity - 9 electrum - p2wpkh-p2sh address (apple8,orange2,0,12345) address = OK"
+fi
+
+out=$($CMD address --password apple8 --second orange2 --iterations 12345 --mode python --script p2wpkh-p2sh)
+if [[ $out == *"3396HyGWCFA8iTYUdM9jFJnZRfGbSxXPA4"* ]]; then
+  echo "sanity - 9 python - p2wpkh-p2sh address (apple8,orange2,0,12345) address = OK"
+fi
+
+out=$($CMD address --password apple8 --second orange2 --iterations 12345 --mode electrum --script p2pkh)
+if [[ $out == *"1EXmNr6FutKG5ei1adFF5tnUwFaPk2Mcon"* ]]; then
+  echo "sanity - 10 electrum - p2pkh address (apple8,orange2,0,12345) address = OK"
+fi
+
+out=$($CMD address --password apple8 --second orange2 --iterations 12345 --mode python --script p2pkh)
+if [[ $out == *"1EXmNr6FutKG5ei1adFF5tnUwFaPk2Mcon"* ]]; then
+  echo "sanity - 10 python - p2pkh address (apple8,orange2,0,12345) address = OK"
 fi
