@@ -1,3 +1,0 @@
-[submodule "3rd/electrum"]
-	path = 3rd/electrum
-	url = https://github.com/spesmilo/electrum.git
