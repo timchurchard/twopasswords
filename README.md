@@ -1,60 +1,34 @@
 # twopasswords
 
-A simple CLI and python module to make a secure Bitcoin wallet from two passwords.
+**WARNING Do Not Use this unless you understand the code !! I am not responsible for any funds you lose. WARNING**
+
+A simple CLI to make secure Bitcoin brain seeds & wallets using two passwords.
 - Make seed and wallet
 - Show address(es) by number
 - Supports Bitcoin
 - Supports Legacy, P2SH Segwit & Segwit
 
-*WARNING* Do Not Use this unless you understand the code !! I am not responsible for any funds you lose. *WARNING*
-
 _Why? How?_
 
-In some situations the safest way to carry Bitcoin around is with a password or two.
+"In some situations the safest way to carry Bitcoin around is with a password or two."
 
-Using PBKDF2 to stretch the first password to make a random seed.  Then second password as BIP39 password.
+Using PBKDF2 to stretch the first password to make a random seed.  Then second password is then used as BIP39 passphrase.
 
-
-## Hacking
-
-Fetch electrum git submodule
-
-```shell
-git submodule update --init
-```
-
-Create a venv and install requirements.
-
-```shell
-python3.6 -m venv venv
-. venv37/bin/activate
-python3 -m pip install -U pip setuptools
-pip install -r requirements.txt
-```
-
-Install electrum
-
-```shell
-cd 3rd/electrum
-pip install -e .
-```
-
-Create an alias
-
-```shell
-alias twop="python3 -m twop"
-```
 
 ## Usage
 
 Make a seed from a password
 
 ```shell
-twop seed --password="qwerty1"
+./twopasswords seed --password="qwerty1"
+
+./twopasswords seed --password="qwerty1" --iterations 123456
 ```
 
 Make a HD wallet and show address _n_
 
 ```shell
-twop address --password="qwerty1" --second="password" --num=0
+./twopasswords address --password="qwerty1" --second="password" --num=0
+
+./twopasswords address --password="qwerty1" --second="password" --num=0 --iterations 123456
 ```
