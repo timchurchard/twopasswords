@@ -1,10 +1,14 @@
 package cmd
 
 import (
+	"encoding/hex"
 	"flag"
 	"fmt"
-	"github.com/timchurchard/twopasswords/pkg"
 	"io"
+
+	bip38address "github.com/sour-is/bitcoin/address"
+	"github.com/sour-is/bitcoin/bip38"
+	"github.com/timchurchard/twopasswords/pkg"
 )
 
 func AddressMain(out io.Writer) int {
@@ -19,6 +23,9 @@ func AddressMain(out io.Writer) int {
 		usagePath       = "Path to wallet file"
 		usageRm         = "Remove the electrum wallet file"
 		usageMode       = "Mode is not used in golang impl. Only for compatibility with python CLI."
+		usageBip38      = "Encrypt private key with bip38 passphrase"
+
+		minBip38Len = 4 // Minimum length of bip38 password
 	)
 
 	var (
@@ -31,6 +38,7 @@ func AddressMain(out io.Writer) int {
 		path       string
 		remove     bool
 		mode       string
+		encrypt    string
 	)
 
 	flag.BoolVar(&verbose, "v", false, "Verbose mode")
@@ -54,6 +62,8 @@ func AddressMain(out io.Writer) int {
 	flag.StringVar(&path, "path", defaultEmpty, usagePath)
 	flag.BoolVar(&remove, "rm", true, usageRm)
 
+	flag.StringVar(&encrypt, "bip38", defaultEmpty, usageBip38)
+
 	flag.Parse()
 
 	seedResult, err := makeSeed(out, password, iterations)
@@ -73,7 +83,21 @@ func AddressMain(out io.Writer) int {
 
 	fmt.Fprintf(out, "Mnemonic = %s (Bip39 with second password: %s)\n", seedResult.Mnemonic, second)
 	fmt.Fprintf(out, "Made address %d (%s) = %s\n", addressResult.Num, addressResult.DerivationPath, addressResult.Address)
-	fmt.Fprintf(out, "WIF: %s\n", addressResult.Wif)
+
+	if encrypt == "" {
+		fmt.Fprintf(out, "WIF: %s\n", addressResult.Wif)
+	} else if len(encrypt) < minBip38Len {
+		fmt.Fprintf(out, "Error bip38 password too short %d < %d", len(encrypt), minBip38Len)
+		return 1
+	} else {
+		priv, err := bip38address.ReadPrivateKey(hex.EncodeToString(addressResult.SecretExponent))
+		if err != nil {
+			fmt.Fprintf(out, "Error decoding WIF for bip38 %v", err)
+			return 1
+		}
+
+		fmt.Fprintf(out, "WIF: %s\n", bip38.Encrypt(priv, encrypt))
+	}
 
 	return 0
 }

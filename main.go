@@ -24,12 +24,14 @@ func main() {
 		os.Exit(cmd.SeedMain(os.Stdout))
 	case "address":
 		os.Exit(cmd.AddressMain(os.Stdout))
+	case "bip38":
+		os.Exit(cmd.Bip38Main(os.Stdout))
 	}
 
 	usageRoot()
 }
 
 func usageRoot() {
-	fmt.Printf("usage: %s command(seed|wallet) options\n", cliName)
+	fmt.Printf("usage: %s command(seed|address|bip38) options\n", cliName)
 	os.Exit(1)
 }
