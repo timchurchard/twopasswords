@@ -6,6 +6,7 @@ import (
 
 type AddressResult struct {
 	Address        string
+	SecretExponent []byte
 	Wif            string
 	Num            int
 	DerivationPath string
@@ -65,6 +66,7 @@ func MakeAddress(mnemonic string, password string, num int, script string) (Addr
 
 	return AddressResult{
 		Address:        address,
+		SecretExponent: key.bip32Key.Key,
 		Wif:            wif,
 		Num:            num,
 		DerivationPath: key.GetPath(),
