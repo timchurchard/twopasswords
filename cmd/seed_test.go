@@ -2,6 +2,9 @@ package cmd
 
 import (
 	"bytes"
+	"encoding/hex"
+	"flag"
+	"os"
 	"reflect"
 	"testing"
 
@@ -9,14 +12,34 @@ import (
 )
 
 func TestSeedMain(t *testing.T) {
+	const cliName = "seed"
+
+	oldArgs := os.Args
+	defer func() { os.Args = oldArgs }()
+
 	tests := []struct {
 		name    string
+		args    []string
 		want    int
 		wantOut string
 	}{
-		// TODO: Add test cases.
+		{
+			name: "sanity",
+			args: []string{
+				"--password",
+				"helloworld",
+				"--iterations",
+				"123456",
+			},
+			want:    0,
+			wantOut: "Made seed. Hex = 0d597f6ab5642fe586ef7ae8683cb3c3b515510aa98f5710af5d8737a3576732\nMnemonic = ask slogan survey hello drill version brick urban trick draft coconut manual eyebrow possible click cradle finish lyrics student attack kick produce orphan divorce\n",
+		},
 	}
 	for _, tt := range tests {
+		// reset flags else panic
+		flag.CommandLine = flag.NewFlagSet(cliName, flag.ExitOnError)
+		os.Args = append([]string{cliName}, tt.args...)
+
 		t.Run(tt.name, func(t *testing.T) {
 			out := &bytes.Buffer{}
 			if got := SeedMain(out); got != tt.want {
@@ -30,6 +53,8 @@ func TestSeedMain(t *testing.T) {
 }
 
 func Test_makeSeed(t *testing.T) {
+	sanityEntropy, _ := hex.DecodeString("df43c0019f4c8a04132779cc871b2645b0107f8452770ed4505976e0269efa03")
+
 	type args struct {
 		password   string
 		iterations int
@@ -41,7 +66,19 @@ func Test_makeSeed(t *testing.T) {
 		wantOut string
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "sanity",
+			args: args{
+				password:   "apple8",
+				iterations: 12345,
+			},
+			want: pkg.SeedResult{
+				Entropy:  sanityEntropy,
+				Mnemonic: "tent bulk about direct silly acoustic erode upset smart decide sister merge absurd divert bacon exclude attract penalty bind universe act exhaust trend improve",
+			},
+			wantOut: "",
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
