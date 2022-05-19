@@ -38,9 +38,10 @@ def seed(password: str):
 @click.option('--password', help='Password for seed')
 @click.option('--second', help='Password for wallet')
 @click.option('--num', default=0, help='Address number')
-@click.option('--script', default='p2sh', help='Script (p2pkh, p2wpkh, p2wpkh-p2sh)')
+@click.option('--script', default='p2wpkh', help='Script (p2pkh, p2wpkh, p2wpkh-p2sh)')
 @click.option('--path', default='wallet.db', help='Path to wallet file')
-def address(password, second, num, script, path):
+@click.option('--rm', default=True, help='Remove the electrum wallet file')
+def address(password, second, num, script, path, rm):
     password_bytes = password.encode('utf8')
     second_bytes = second.encode('utf8')
 
@@ -57,7 +58,8 @@ def address(password, second, num, script, path):
         return ERROR
     # print(f'Made seed. Hex = {seed.hex}\n{seed.mnemonic}\n')
 
-    addr = make_address(seed.mnemonic, second, num, script, path)
+    remove = rm.lower() == 'true'
+    addr = make_address(seed.mnemonic, second, num, script, path, remove)
 
     print(f'Made address: {addr.num} = {addr.address}')
     # print(f'WIF: {addr.wif}')
