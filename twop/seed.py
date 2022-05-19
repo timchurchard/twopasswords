@@ -2,10 +2,11 @@
 
 from collections import namedtuple
 from hashlib import sha256, pbkdf2_hmac
+from time import monotonic
 
 from mnemonic import Mnemonic
 
-from .const import DEF_ITS_SALT, DEF_ITS_PBKDF2, MIN_LEN_PASSWORD, MIN_ITS_PBKDF2, MIN_ITS_SALT
+from .const import DEF_ITS_SALT, DEF_ITS_PBKDF2, MIN_LEN_PASSWORD, MIN_ITS_PBKDF2, MIN_ITS_SALT, DEF_VERBOSE_TIME
 
 
 def make_salt(password: bytes, iterations: int = DEF_ITS_SALT) -> bytes:
@@ -18,11 +19,21 @@ def make_salt(password: bytes, iterations: int = DEF_ITS_SALT) -> bytes:
     if iterations < MIN_ITS_SALT:
         raise ValueError(f'Salt iterations too low {iterations} < {MIN_ITS_SALT}')
 
+    start_time = last_time = monotonic()
     result = password
-    for _ in range(iterations):
+    for i in range(iterations):
         md = sha256()
         md.update(result)
         result = md.digest()
+
+        if monotonic() > last_time + DEF_VERBOSE_TIME:
+            last_time = monotonic()
+            progress = (100 / iterations) * i
+            print(f'(1/2) {progress:.2f}% SALT {i} / {iterations}')
+
+    if not start_time == last_time:
+        print(f'SALT total seconds {last_time - start_time}')
+
     return result
 
 
@@ -40,6 +51,7 @@ def make_seed(password: bytes, salt: bytes, iterations: int = DEF_ITS_PBKDF2, la
     if len(salt) != 32:
         raise ValueError(f'Salt must be 32-bytes')
 
+    # TODO: If the make_salt timer happened it would be nice to have a timer here too
     dk = pbkdf2_hmac('sha256', password, salt, iterations)
     seed = Mnemonic(language).to_mnemonic(dk)
 

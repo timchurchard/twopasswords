@@ -3,11 +3,16 @@
 import os
 from collections import namedtuple
 
-from electrum import keystore
-from electrum.storage import WalletStorage
-from electrum.wallet_db import WalletDB
-from electrum.wallet import Wallet
-from electrum.simple_config import SimpleConfig
+electrum = None
+try:
+    from electrum import keystore
+    from electrum.storage import WalletStorage
+    from electrum.wallet_db import WalletDB
+    from electrum.wallet import Wallet
+    from electrum.simple_config import SimpleConfig
+except ImportError:
+    pass
+
 from mnemonic import Mnemonic
 
 from .const import MIN_LEN_PASSWORD
@@ -17,6 +22,9 @@ AddressResult = namedtuple('AddressResult', 'address wif num')
 
 
 def make_address(mnemonic: str, second: str, num: int = 0, script: str = 'p2wpkh', path: str = 'wallet.db', remove: bool = True):
+    if electrum is None:
+        raise ImportError('Unable to import electrum.  Follow README instructions.')
+
     if len(second) < MIN_LEN_PASSWORD:
         raise ValueError(f'Password too short {len(second)} < {MIN_LEN_PASSWORD}')
     script_types = ('p2pkh', 'p2wpkh', 'p2wpkh-p2sh')
