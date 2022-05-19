@@ -58,11 +58,3 @@ Make a HD wallet and show address n
 ```shell
 twop address --password="qwerty1" --second="password" --num=0
 ```
-
-## Challenge
-
-On 20/08/2020 I made a wallet: [bc1qljvqcfekqfcg7tschdmny6qnd6w47md8c62czm](https://blockchair.com/bitcoin/address/bc1qljvqcfekqfcg7tschdmny6qnd6w47md8c62czm) with 0.01 BTC
-
-Both passwords are 6 characters long and contain only a-z lowercase.
-
-The address is a number in the range 0-9.
