@@ -11,7 +11,17 @@ import (
 	"github.com/timchurchard/twopasswords/pkg"
 )
 
-func AddressMain(out io.Writer) int {
+type addressFlagData struct {
+	Verbose    bool
+	Iterations int
+	Password   string
+	Second     string
+	Num        int
+	Script     string
+	Encrypt    string
+}
+
+func addressFlags() addressFlagData {
 	const (
 		defaultEmpty    = ""
 		usageIterations = "Number of iterations for PBKDF2"
@@ -20,74 +30,61 @@ func AddressMain(out io.Writer) int {
 		usageNum        = "Address number to make"
 		usageScript     = "Script (p2pkh, p2wpkh, p2wpkh-p2sh)"
 		defaultScript   = "p2wpkh"
-		usagePath       = "Path to wallet file"
-		usageRm         = "Remove the electrum wallet file"
-		usageMode       = "Mode is not used in golang impl. Only for compatibility with python CLI."
 		usageBip38      = "Encrypt private key with bip38 passphrase"
-
-		minBip38Len = 4 // Minimum length of bip38 password
 	)
 
-	var (
-		verbose    bool
-		iterations int
-		password   string
-		second     string
-		num        int
-		script     string
-		path       string
-		remove     bool
-		mode       string
-		encrypt    string
-	)
+	result := addressFlagData{}
 
-	flag.BoolVar(&verbose, "v", false, "Verbose mode")
+	flag.BoolVar(&result.Verbose, "v", false, "Verbose mode")
 
-	flag.IntVar(&iterations, "iterations", pkg.DefaultIterations, usageIterations)
-	flag.IntVar(&iterations, "i", pkg.DefaultIterations, usageIterations+" (shorthand)")
+	flag.IntVar(&result.Iterations, "iterations", pkg.DefaultIterations, usageIterations)
+	flag.IntVar(&result.Iterations, "i", pkg.DefaultIterations, usageIterations+" (shorthand)")
 
-	flag.StringVar(&password, "password", defaultEmpty, usagePassword)
-	flag.StringVar(&password, "p", defaultEmpty, usagePassword+" (shorthand)")
+	flag.StringVar(&result.Password, "password", defaultEmpty, usagePassword)
+	flag.StringVar(&result.Password, "p", defaultEmpty, usagePassword+" (shorthand)")
 
-	flag.StringVar(&second, "second", defaultEmpty, usageSecond)
-	flag.StringVar(&second, "s", defaultEmpty, usageSecond+" (shorthand)")
+	flag.StringVar(&result.Second, "second", defaultEmpty, usageSecond)
+	flag.StringVar(&result.Second, "s", defaultEmpty, usageSecond+" (shorthand)")
 
-	flag.IntVar(&num, "num", 0, usageNum)
-	flag.IntVar(&num, "n", 0, usageNum+" (shorthand)")
+	flag.IntVar(&result.Num, "num", 0, usageNum)
+	flag.IntVar(&result.Num, "n", 0, usageNum+" (shorthand)")
 
-	flag.StringVar(&mode, "mode", defaultEmpty, usageMode)
-	flag.StringVar(&mode, "m", defaultEmpty, usageMode+" (shorthand)")
+	flag.StringVar(&result.Script, "script", defaultScript, usageScript)
 
-	flag.StringVar(&script, "script", defaultScript, usageScript)
-	flag.StringVar(&path, "path", defaultEmpty, usagePath)
-	flag.BoolVar(&remove, "rm", true, usageRm)
-
-	flag.StringVar(&encrypt, "bip38", defaultEmpty, usageBip38)
+	flag.StringVar(&result.Encrypt, "bip38", defaultEmpty, usageBip38)
 
 	flag.Parse()
 
-	seedResult, err := makeSeed(out, password, iterations)
+	return result
+}
+
+func AddressMain(out io.Writer) int {
+	const minBip38Len = 4 // Minimum length of bip38 password
+
+	args := addressFlags()
+
+	seedResult, err := makeSeed(out, args.Password, args.Iterations)
 	if err != nil {
 		return 1
 	}
 
-	if verbose {
+	if args.Verbose {
 		fmt.Fprintf(out, "Made seed. Hex = %x\n", seedResult.Entropy)
 	}
 
-	addressResult, err := pkg.MakeAddress(seedResult.Mnemonic, second, num, script)
+	addressResult, err := pkg.MakeAddress(seedResult.Mnemonic, args.Second, args.Num, args.Script)
 	if err != nil {
 		fmt.Fprintf(out, "Error making address: %v", err)
 		return 1
 	}
 
-	fmt.Fprintf(out, "Mnemonic = %s (Bip39 with second password: %s)\n", seedResult.Mnemonic, second)
+	fmt.Fprintf(out, "Mnemonic = %s (Bip39 with second password: %s)\n", seedResult.Mnemonic, args.Second)
 	fmt.Fprintf(out, "Made address %d (%s) = %s\n", addressResult.Num, addressResult.DerivationPath, addressResult.Address)
 
-	if encrypt == "" {
+	if args.Encrypt == "" {
 		fmt.Fprintf(out, "WIF: %s\n", addressResult.Wif)
-	} else if len(encrypt) < minBip38Len {
-		fmt.Fprintf(out, "Error bip38 password too short %d < %d", len(encrypt), minBip38Len)
+	} else if len(args.Encrypt) < minBip38Len {
+		fmt.Fprintf(out, "Error bip38 password too short %d < %d", len(args.Encrypt), minBip38Len)
 		return 1
 	} else {
 		priv, err := bip38address.ReadPrivateKey(hex.EncodeToString(addressResult.SecretExponent))
@@ -96,7 +93,7 @@ func AddressMain(out io.Writer) int {
 			return 1
 		}
 
-		fmt.Fprintf(out, "WIF: %s\n", bip38.Encrypt(priv, encrypt))
+		fmt.Fprintf(out, "WIF: %s\n", bip38.Encrypt(priv, args.Encrypt))
 	}
 
 	return 0

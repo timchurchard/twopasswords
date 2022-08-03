@@ -3,8 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/timchurchard/twopasswords/cmd"
 	"os"
+
+	"github.com/timchurchard/twopasswords/cmd"
 )
 
 const cliName = "twopasswords"
@@ -26,12 +27,14 @@ func main() {
 		os.Exit(cmd.AddressMain(os.Stdout))
 	case "bip38":
 		os.Exit(cmd.Bip38Main(os.Stdout))
+	case "balance":
+		os.Exit(cmd.BalanceMain(os.Stdout))
 	}
 
 	usageRoot()
 }
 
 func usageRoot() {
-	fmt.Printf("usage: %s command(seed|address|bip38) options\n", cliName)
+	fmt.Printf("usage: %s command(seed|address|bip38|wallet) options\n", cliName)
 	os.Exit(1)
 }
