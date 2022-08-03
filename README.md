@@ -1,20 +1,26 @@
-# twopasswords
+# twopasswords: Simple brain wallet demo
 
 **WARNING Do Not Use this unless you understand the code !! I am not responsible for any funds you lose. WARNING**
 
-A simple CLI to make secure Bitcoin brain seeds & wallets using two passwords.
+This is a demo of a simple brain wallet system comprising a simple CLI to make Bitcoin brain wallets using two passwords.
 - Make seed and wallet
 - Show address(es) by number
 - Supports Bitcoin
 - Supports Legacy, P2SH Segwit & Segwit
 - Optional BIP38 Encrypt WIF
+- Wallet and utility functions
 
 _Why? How?_
 
 "In some situations the safest way to carry Bitcoin around is with a password or two."
 
-Using PBKDF2 to stretch the first password to make a random seed.  Then second password is then used as BIP39 passphrase.
+A criticism of BIP39 is the source of entropy. A user may provide entropy from a weak source (password). This demo is an attempt to explore that option.
 
+PBKDF2 is used to stretch the first password to make a 'random' seed. The stretching uses a large number of iterations and the user may specify that number. Then second password is then used as BIP39 passphrase. The combination of these three factors makes brute forcing much harder.
+
+_Iterations? WTF?_
+
+Iterations is the number of times to hash passwords. This increases the time/cpu-effort required to brute force wallets made in this way. I suggest picking a large number (millions or billions) that you can remember. The larger the number the longer the calculation will take. Use 21,000,000 for example, this takes about 10s for me. Using 21,000,000,000 takes 10,900 seconds (3 hours).
 
 ## Usage
 
@@ -46,3 +52,12 @@ Decrypt bip38 key. Note it is not possible to know if the password is wrong for 
 #Bitcoin P2PKH (Compressed):     L5FR5W8NFvxXbELrSJbMcudmN2kFDSCvpBg9nSPgLfbQx7DfzA59
 #Bitcoin P2WPKH:                 p2wpkh:L5FR5W8NFvxXbELrSJbMcudmN2kFDSCvpBg9nSPgLfbQx7DfzA59
 ```
+
+## Wallet utility functions
+
+This is not a wallet but it will try to find the balance of a given seed.
+
+```shell
+./twopasswords balance --password="qwerty1" --second="password" --iterations 123456
+```
+
