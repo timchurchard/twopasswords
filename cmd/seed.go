@@ -9,14 +9,9 @@ import (
 )
 
 func SeedMain(out io.Writer) int {
-	const (
-		defaultEmpty    = ""
-		usageIterations = "Number of iterations for PBKDF2"
-		usagePassword   = "Password for seed"
-	)
-
 	var (
 		iterations int
+		bits       int
 		password   string
 	)
 
@@ -26,9 +21,12 @@ func SeedMain(out io.Writer) int {
 	flag.StringVar(&password, "password", defaultEmpty, usagePassword)
 	flag.StringVar(&password, "p", defaultEmpty, usagePassword+" (shorthand)")
 
+	flag.IntVar(&bits, "bits", default256, usageBits)
+	flag.IntVar(&bits, "b", default256, usageBits+" (shorthand)")
+
 	flag.Parse()
 
-	seedResult, err := makeSeed(out, password, iterations)
+	seedResult, err := makeSeed(out, password, iterations, bits)
 	if err != nil {
 		return 1
 	}
@@ -39,7 +37,7 @@ func SeedMain(out io.Writer) int {
 	return 0
 }
 
-func makeSeed(out io.Writer, password string, iterations int) (pkg.SeedResult, error) {
+func makeSeed(out io.Writer, password string, iterations, bits int) (pkg.SeedResult, error) {
 	passwordBytes := []byte(password)
 	saltBytes, err := pkg.MakeSalt(passwordBytes, iterations)
 	if err != nil {
@@ -47,7 +45,7 @@ func makeSeed(out io.Writer, password string, iterations int) (pkg.SeedResult, e
 		return pkg.SeedResult{}, err
 	}
 
-	seedResult, err := pkg.MakeSeed([]byte(password), saltBytes, iterations, "english")
+	seedResult, err := pkg.MakeSeed([]byte(password), saltBytes, iterations, bits, "english")
 	if err != nil {
 		fmt.Fprintf(out, "Error making seed: %v", err)
 		return pkg.SeedResult{}, err

@@ -57,6 +57,7 @@ func Test_makeSeed(t *testing.T) {
 
 	type args struct {
 		password   string
+		bits       int
 		iterations int
 	}
 	tests := []struct {
@@ -70,6 +71,7 @@ func Test_makeSeed(t *testing.T) {
 			name: "sanity",
 			args: args{
 				password:   "apple8",
+				bits:       256,
 				iterations: 12345,
 			},
 			want: pkg.SeedResult{
@@ -79,11 +81,25 @@ func Test_makeSeed(t *testing.T) {
 			wantOut: "",
 			wantErr: false,
 		},
+		{
+			name: "sanity 128",
+			args: args{
+				password:   "apple8",
+				bits:       128,
+				iterations: 12345,
+			},
+			want: pkg.SeedResult{
+				Entropy:  sanityEntropy[0:16],
+				Mnemonic: "tent bulk about direct silly acoustic erode upset smart decide sister mercy",
+			},
+			wantOut: "",
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			out := &bytes.Buffer{}
-			got, err := makeSeed(out, tt.args.password, tt.args.iterations)
+			got, err := makeSeed(out, tt.args.password, tt.args.iterations, tt.args.bits)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("makeSeed() error = %v, wantErr %v", err, tt.wantErr)
 				return

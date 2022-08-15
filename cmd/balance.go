@@ -16,7 +16,7 @@ func BalanceMain(out io.Writer) int {
 
 	args := addressFlags()
 
-	seedResult, err := makeSeed(out, args.Password, args.Iterations)
+	seedResult, err := makeSeed(out, args.Password, args.Iterations, args.Bits)
 	if err != nil {
 		return 1
 	}
