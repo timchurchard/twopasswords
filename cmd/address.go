@@ -13,6 +13,7 @@ import (
 
 type addressFlagData struct {
 	Verbose    bool
+	Bits       int
 	Iterations int
 	Password   string
 	Second     string
@@ -22,23 +23,15 @@ type addressFlagData struct {
 }
 
 func addressFlags() addressFlagData {
-	const (
-		defaultEmpty    = ""
-		usageIterations = "Number of iterations for PBKDF2"
-		usagePassword   = "Password for seed"
-		usageSecond     = "Password for bip39 and wallet encryption"
-		usageNum        = "Address number to make"
-		usageScript     = "Script (p2pkh, p2wpkh, p2wpkh-p2sh)"
-		defaultScript   = "p2wpkh"
-		usageBip38      = "Encrypt private key with bip38 passphrase"
-	)
-
 	result := addressFlagData{}
 
 	flag.BoolVar(&result.Verbose, "v", false, "Verbose mode")
 
 	flag.IntVar(&result.Iterations, "iterations", pkg.DefaultIterations, usageIterations)
 	flag.IntVar(&result.Iterations, "i", pkg.DefaultIterations, usageIterations+" (shorthand)")
+
+	flag.IntVar(&result.Bits, "bits", default256, usageBits)
+	flag.IntVar(&result.Bits, "b", default256, usageBits+" (shorthand)")
 
 	flag.StringVar(&result.Password, "password", defaultEmpty, usagePassword)
 	flag.StringVar(&result.Password, "p", defaultEmpty, usagePassword+" (shorthand)")
@@ -63,7 +56,7 @@ func AddressMain(out io.Writer) int {
 
 	args := addressFlags()
 
-	seedResult, err := makeSeed(out, args.Password, args.Iterations)
+	seedResult, err := makeSeed(out, args.Password, args.Iterations, args.Bits)
 	if err != nil {
 		return 1
 	}

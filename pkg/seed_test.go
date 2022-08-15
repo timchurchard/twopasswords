@@ -73,6 +73,7 @@ func TestMakeSeed(t *testing.T) {
 		password     []byte
 		salt         []byte
 		iterations   int
+		bits         int
 		language     string
 		expectedSecs int
 	}
@@ -87,6 +88,7 @@ func TestMakeSeed(t *testing.T) {
 			args: args{
 				password:     validPassword,
 				salt:         validSalt,
+				bits:         256,
 				iterations:   12345,
 				language:     "english",
 				expectedSecs: 0,
@@ -101,6 +103,7 @@ func TestMakeSeed(t *testing.T) {
 			args: args{
 				password:     invalidShort,
 				salt:         validSalt,
+				bits:         256,
 				iterations:   12345,
 				language:     "english",
 				expectedSecs: 0,
@@ -113,6 +116,7 @@ func TestMakeSeed(t *testing.T) {
 			args: args{
 				password:     validPassword,
 				salt:         validSalt,
+				bits:         256,
 				iterations:   0,
 				language:     "english",
 				expectedSecs: 0,
@@ -125,6 +129,7 @@ func TestMakeSeed(t *testing.T) {
 			args: args{
 				password:     validPassword,
 				salt:         invalidShort,
+				bits:         256,
 				iterations:   12345,
 				language:     "english",
 				expectedSecs: 0,
@@ -135,7 +140,7 @@ func TestMakeSeed(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := MakeSeed(tt.args.password, tt.args.salt, tt.args.iterations, tt.args.language)
+			got, err := MakeSeed(tt.args.password, tt.args.salt, tt.args.iterations, tt.args.bits, tt.args.language)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("MakeSeed() error = %v, wantErr %v", err, tt.wantErr)
 				return
