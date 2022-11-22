@@ -71,7 +71,7 @@ func generateFromBytes(prvKey *btcec.PrivateKey, compress bool) (wif, address, s
 
 	// generate an address which is
 	// backwards compatible to Bitcoin nodes running 0.6.0 onwards, but
-	// allows us to take advantage of segwit's scripting improvments,
+	// allows us to take advantage of segwit's scripting improvements,
 	// and malleability fixes.
 	serializedScript, err := txscript.PayToAddrScript(addressWitnessPubKeyHash)
 	if err != nil {
@@ -86,6 +86,7 @@ func generateFromBytes(prvKey *btcec.PrivateKey, compress bool) (wif, address, s
 	return wif, address, segwitBech32, segwitNested, nil
 }
 
+// Key hold path and key and Encode function
 type Key struct {
 	path     string
 	bip32Key *bip32.Key
