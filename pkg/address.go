@@ -4,6 +4,7 @@ import (
 	"errors"
 )
 
+// AddressResult holds the MakeAddress result
 type AddressResult struct {
 	Address        string
 	SecretExponent []byte
@@ -12,6 +13,7 @@ type AddressResult struct {
 	DerivationPath string
 }
 
+// MakeAddress function takes mnemonic and password and returns an address and wif
 func MakeAddress(mnemonic string, password string, num int, script string) (AddressResult, error) {
 	const (
 		// Seed is always 256-bit here
