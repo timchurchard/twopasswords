@@ -46,6 +46,9 @@ func addressFlags() addressFlagData {
 
 	flag.StringVar(&result.Encrypt, "bip38", defaultEmpty, usageBip38)
 
+	mode := "unused"
+	flag.StringVar(&mode, "mode", defaultEmpty, "unused. Left for compatibility.")
+
 	flag.Parse()
 
 	return result

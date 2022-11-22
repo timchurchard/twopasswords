@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/btcsuite/btcd/btcec"
+	"github.com/btcsuite/btcd/btcec/v2"
+	"github.com/btcsuite/btcd/btcutil"
 	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcd/txscript"
-	"github.com/btcsuite/btcutil"
 	"github.com/tyler-smith/go-bip32"
 	"github.com/tyler-smith/go-bip39"
 )
@@ -92,7 +92,7 @@ type Key struct {
 }
 
 func (k *Key) Encode(compress bool) (wif, address, segwitBech32, segwitNested string, err error) {
-	prvKey, _ := btcec.PrivKeyFromBytes(btcec.S256(), k.bip32Key.Key)
+	prvKey, _ := btcec.PrivKeyFromBytes(k.bip32Key.Key)
 	return generateFromBytes(prvKey, compress)
 }
 
