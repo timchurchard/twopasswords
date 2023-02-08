@@ -1,4 +1,4 @@
 git+https://github.com/trezor/python-mnemonic.git@v0.19
 git+https://github.com/mcdallas/cryptotools.git@master#egg=cryptotools
 click==7.1.2
-cryptography==3.3.2
+cryptography==39.0.1
