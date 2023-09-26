@@ -1,5 +1,12 @@
 # twopasswords: Simple brain wallet demo
 
+![Build Status](https://github.com/timchurchard/twopasswords/workflows/Test/badge.svg)
+![Coverage](https://img.shields.io/badge/Coverage-67.3%25-yellow)
+[![License](https://img.shields.io/github/license/timchurchard/twopasswords)](/LICENSE)
+[![Release](https://img.shields.io/github/release/timchurchard/twopasswords.svg)](https://github.com/timchurchard/twopasswords/releases/latest)
+[![GitHub Releases Stats of twopasswords](https://img.shields.io/github/downloads/timchurchard/twopasswords/total.svg?logo=github)](https://somsubhra.github.io/github-release-stats/?username=timchurchard&repository=twopasswords)
+
+
 **WARNING Do Not Use this unless you understand the code !! I am not responsible for any funds you lose. WARNING**
 
 This is a demo of a simple brain wallet system comprising a simple CLI to make Bitcoin brain wallets using two passwords.
