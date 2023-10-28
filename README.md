@@ -29,6 +29,16 @@ _Iterations? WTF?_
 
 Iterations is the number of times to hash passwords. This increases the time/cpu-effort required to brute force wallets made in this way. I suggest picking a large number (millions or billions) that you can remember. The larger the number the longer the calculation will take. Use 21,000,000 for example, this takes about 10s for me. Using 21,000,000,000 takes 10,900 seconds (3 hours).
 
+## Docker usage
+
+```shell
+$ docker build -t tc/twopasswords .
+
+$ docker run -it --rm /generate-addr.sh
+Mnemonic = between emotion state blast corn question advice cement gesture future will wrong (Bip39 with second password: 112526)
+Made address 0 (m/84'/0'/0'/0/0) = bc1qcpepzkt6hez3mw4lgcmp44scqmprpp8sdf2v6l
+```
+
 ## Usage
 
 Make a seed from a password
