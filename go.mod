@@ -3,7 +3,7 @@ module github.com/timchurchard/twopasswords
 go 1.20
 
 require (
-	github.com/btcsuite/btcd v0.23.5-0.20231215221805-96c9fd8078fd
+	github.com/btcsuite/btcd v0.24.0
 	github.com/btcsuite/btcd/btcec/v2 v2.3.2
 	github.com/btcsuite/btcd/btcutil v1.1.5
 	github.com/sour-is/bitcoin v0.0.0-20180314143529-d37365313634
