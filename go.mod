@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/btcsuite/btcd v0.24.0
-	github.com/btcsuite/btcd/btcec/v2 v2.3.2
+	github.com/btcsuite/btcd/btcec/v2 v2.3.3
 	github.com/btcsuite/btcd/btcutil v1.1.5
 	github.com/sour-is/bitcoin v0.0.0-20180314143529-d37365313634
 	github.com/timchurchard/opendime-utils v0.0.0-20221122144644-a425c5193651
