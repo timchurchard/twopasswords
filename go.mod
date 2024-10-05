@@ -20,8 +20,8 @@ require (
 	github.com/btcsuite/btclog v0.0.0-20170628155309-84c8d2346e9f // indirect
 	github.com/decred/dcrd/crypto/blake256 v1.0.0 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.1.0 // indirect
-	github.com/ethereum/go-ethereum v1.12.1 // indirect
-	github.com/holiman/uint256 v1.2.3 // indirect
+	github.com/ethereum/go-ethereum v1.13.15 // indirect
+	github.com/holiman/uint256 v1.2.4 // indirect
 	github.com/smartystreets/goconvey v1.7.2 // indirect
 	github.com/sour-is/koblitz v0.0.0-20140508155619-28d92784add2 // indirect
 	golang.org/x/sys v0.25.0 // indirect
