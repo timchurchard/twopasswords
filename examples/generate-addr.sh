@@ -1,4 +1,5 @@
 #!/bin/bash
+# generate-addr.sh example create a mnemonic and address
 
 if [ -z $PASSWORD ]; then
 	export PASSWORD=$(goxkcdpwgen -d - -c -n 10)
