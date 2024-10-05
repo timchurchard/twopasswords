@@ -17,26 +17,31 @@ This is a demo of a simple brain wallet system comprising a simple CLI to make B
 - Optional BIP38 Encrypt WIF
 - Wallet and utility functions
 
-_Why? How?_
+### What
 
-"In some situations the safest way to carry Bitcoin around is with a password or two."
+One criticism of BIP39 is the source of entropy. A user may provide entropy from a weak source (password). This demo is an attempt to explore that option.
 
-A criticism of BIP39 is the source of entropy. A user may provide entropy from a weak source (password). This demo is an attempt to explore that option.
+PBKDF2 is used to stretch the first password to make a 'random' seed. The stretching uses a large number of iterations and the user may specify that number.
 
-PBKDF2 is used to stretch the first password to make a 'random' seed. The stretching uses a large number of iterations and the user may specify that number. Then second password is then used as BIP39 passphrase. The combination of these three factors makes brute forcing much harder.
+Then second password is then used as BIP39 passphrase. In theory this combination makes brute forcing much harder.
 
-_Iterations? WTF?_
+Many people remember more than two passwords already and long numbers, so they should be able to safely store a long-term Bitcoin wallet in their brain too.
 
-Iterations is the number of times to hash passwords. This increases the time/cpu-effort required to brute force wallets made in this way. I suggest picking a large number (millions or billions) that you can remember. The larger the number the longer the calculation will take. Use 21,000,000 for example, this takes about 10s for me. Using 21,000,000,000 takes 10,900 seconds (3 hours).
+### Iterations
+
+Iterations is the number of times to hash passwords. This increases the time & CPU effort required to brute force wallets made in this way. I suggest picking a large number (millions or billions) that you can remember. The larger the number the longer the calculation will take. Use 21,000,000 (million) for example, this takes about 10s for me. Using 21,000,000,000 (billion) takes 10,900 seconds (3 hours).
 
 ## Docker usage
 
 ```shell
 $ docker build -t tc/twopasswords .
 
-$ docker run -it --rm /generate-addr.sh
+$ docker run -it --rm tc/twopasswords /examples/generate-addr.sh
 Mnemonic = between emotion state blast corn question advice cement gesture future will wrong (Bip39 with second password: 112526)
 Made address 0 (m/84'/0'/0'/0/0) = bc1qcpepzkt6hez3mw4lgcmp44scqmprpp8sdf2v6l
+
+# Run the other examples
+# docker run -it --rm tc/twopasswords /examples/notewallet/make_notewallet.sh
 ```
 
 ## Usage
@@ -70,9 +75,23 @@ Decrypt bip38 key. Note it is not possible to know if the password is wrong for 
 #Bitcoin P2WPKH:                 p2wpkh:L5FR5W8NFvxXbELrSJbMcudmN2kFDSCvpBg9nSPgLfbQx7DfzA59
 ```
 
-## Wallet utility functions
+## Examples
 
-This is not a wallet but it will try to find the balance of a given seed.
+Some example scripts are provided to explore what can be done with this utility
+
+### notewallet
+
+[./examples/notewallet](./examples/notewallet) creates a random number of iterations and two random passwords then lists several addresses. This is an example of a wallet in a text file where the secrets could be easily written on a paper note.
+
+### paperwallet
+
+[./examples/paperwallet](./examples/paperwallet) create example paperwallet (single public & private key)
+
+## Utility functions
+
+### balance
+
+Attempt to get the balance of a wallet
 
 ```shell
 ./twopasswords balance --password="qwerty1" --second="password" --iterations 123456

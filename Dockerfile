@@ -7,19 +7,17 @@ COPY . .
 
 RUN go build .
 
-RUN go install -v github.com/martinhoefling/goxkcdpwgen@latest && which goxkcdpwgen
 
-COPY ./scripts/generate-addr.sh /
-
-
-# Wipe and copy minimal stuff
+# Wipe and copy minimal stuff (including deps for examples)
 FROM golang:1.21-bookworm
+
+RUN go install -v github.com/martinhoefling/goxkcdpwgen@latest
+
+RUN apt update && apt install -y imagemagick qrencode
 
 COPY --from=builder /build/twopasswords /
 
-COPY --from=builder /go/bin/goxkcdpwgen /
-
-COPY --from=builder /generate-addr.sh /
+COPY --from=builder /build/examples /examples
 
 ENV PATH=$PATH:/
 
