@@ -1,7 +1,6 @@
 module github.com/timchurchard/twopasswords
 
 go 1.22
-
 toolchain go1.23.3
 
 require (
@@ -12,7 +11,7 @@ require (
 	github.com/timchurchard/opendime-utils v0.0.0-20221122144644-a425c5193651
 	github.com/tyler-smith/go-bip32 v1.0.0
 	github.com/tyler-smith/go-bip39 v1.1.0
-	golang.org/x/crypto v0.33.0
+	golang.org/x/crypto v0.34.0
 )
 
 require (
