@@ -1,7 +1,7 @@
 # twopasswords: Simple brain wallet demo
 
 ![Build Status](https://github.com/timchurchard/twopasswords/workflows/Test/badge.svg)
-![Coverage](https://img.shields.io/badge/Coverage-71.0%25-brightgreen)
+![Coverage](https://img.shields.io/badge/Coverage-67.8%25-yellow)
 [![License](https://img.shields.io/github/license/timchurchard/twopasswords)](/LICENSE)
 [![Release](https://img.shields.io/github/release/timchurchard/twopasswords.svg)](https://github.com/timchurchard/twopasswords/releases/latest)
 [![GitHub Releases Stats of twopasswords](https://img.shields.io/github/downloads/timchurchard/twopasswords/total.svg?logo=github)](https://somsubhra.github.io/github-release-stats/?username=timchurchard&repository=twopasswords)
