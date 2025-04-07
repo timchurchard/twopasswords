@@ -12,7 +12,7 @@ require (
 	github.com/timchurchard/opendime-utils v0.0.0-20221122144644-a425c5193651
 	github.com/tyler-smith/go-bip32 v1.0.0
 	github.com/tyler-smith/go-bip39 v1.1.0
-	golang.org/x/crypto v0.35.0
+	golang.org/x/crypto v0.37.0
 )
 
 require (
@@ -26,5 +26,5 @@ require (
 	github.com/holiman/uint256 v1.3.2 // indirect
 	github.com/smartystreets/goconvey v1.7.2 // indirect
 	github.com/sour-is/koblitz v0.0.0-20140508155619-28d92784add2 // indirect
-	golang.org/x/sys v0.30.0 // indirect
+	golang.org/x/sys v0.32.0 // indirect
 )
