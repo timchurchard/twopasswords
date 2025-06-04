@@ -6,7 +6,7 @@ toolchain go1.23.3
 
 require (
 	github.com/btcsuite/btcd v0.24.2
-	github.com/btcsuite/btcd/btcec/v2 v2.3.4
+	github.com/btcsuite/btcd/btcec/v2 v2.3.5
 	github.com/btcsuite/btcd/btcutil v1.1.6
 	github.com/sour-is/bitcoin v0.0.0-20180314143529-d37365313634
 	github.com/timchurchard/opendime-utils v0.0.0-20221122144644-a425c5193651
