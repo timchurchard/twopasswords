@@ -12,7 +12,7 @@ require (
 	github.com/timchurchard/opendime-utils v0.0.0-20221122144644-a425c5193651
 	github.com/tyler-smith/go-bip32 v1.0.0
 	github.com/tyler-smith/go-bip39 v1.1.0
-	golang.org/x/crypto v0.38.0
+	golang.org/x/crypto v0.39.0
 )
 
 require (
