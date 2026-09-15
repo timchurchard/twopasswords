@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/hex"
 	"flag"
 	"fmt"
 	"io"
@@ -17,6 +18,9 @@ func Bip38Main(out io.Writer) int {
 		usageAddress  = "Expected address"
 
 		prefixBitcoinHex = "80"
+
+		// Secret exponent is always 32 bytes
+		secretExponentLen = 32
 	)
 
 	var (
@@ -42,11 +46,11 @@ func Bip38Main(out io.Writer) int {
 		return 1
 	}
 
-	_, secretExponentHex, _, err := opendime.ValidateWif(priv.String())
-	if err != nil {
-		fmt.Fprintf(out, "Error reading WIF: %v", err)
-		return 1
-	}
+	// priv.String() encodes the key with big.Int.Bytes(), which drops leading
+	// zero bytes, so read the exponent from priv.D at a stated width instead.
+	var secretExponent [secretExponentLen]byte
+	priv.D.FillBytes(secretExponent[:])
+	secretExponentHex := hex.EncodeToString(secretExponent[:])
 
 	p2pkh := opendime.ToWif(prefixBitcoinHex, secretExponentHex, false)
 	p2pkhComp := opendime.ToWif(prefixBitcoinHex, secretExponentHex, true)
