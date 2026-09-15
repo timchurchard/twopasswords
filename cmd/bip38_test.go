@@ -32,6 +32,22 @@ func TestBip38Main(t *testing.T) {
 			want:    0,
 			wantOut: "Bitcoin P2PKH:\t\t\t5KdoEi385k3ACP492eyGYhUMvhiyEh9bPvd4MGGZUZm3i6GtSAE\nBitcoin P2PKH (Compressed):\tL5FR5W8NFvxXbELrSJbMcudmN2kFDSCvpBg9nSPgLfbQx7DfzA59\nBitcoin P2WPKH:\t\t\tp2wpkh:L5FR5W8NFvxXbELrSJbMcudmN2kFDSCvpBg9nSPgLfbQx7DfzA59\n",
 		},
+		{
+			// Secret exponent 009daf84b9b861a2a6f1de543781ebf2c0693707bb0dd9c55aff2931a754583a
+			// begins with a zero byte. None of the BIP38 test vectors do, so
+			// nothing else in the suite covers a 31-byte big.Int.
+			name: "leading zero byte",
+			args: []string{
+				"-b",
+				"6PRVhMBUXTbmLZsbsRXmDEoNmsEH6UQRSsMNbeaVn1C4b1TgUcMCReaDzx",
+				"-p",
+				"TestingOneTwoThree",
+				"-a",
+				"12HPHgPkaSDqZ93bEH4R7NHFrAqUeoppj6",
+			},
+			want:    0,
+			wantOut: "Bitcoin P2PKH:\t\t\t5HpZKF9UfyNG9EpVaic45Af4GJeZ9LGuGbxEnxPU3zvys2NieiN\nBitcoin P2PKH (Compressed):\tKwEudXSR91nqqMzd9pdiZPcyQYtksn5BhsGosqUAQEhFyRc8AgiG\nBitcoin P2WPKH:\t\t\tp2wpkh:KwEudXSR91nqqMzd9pdiZPcyQYtksn5BhsGosqUAQEhFyRc8AgiG\n",
+		},
 	}
 	for _, tt := range tests {
 		// reset flags else panic
