@@ -1,12 +1,12 @@
 module github.com/timchurchard/twopasswords
 
-go 1.24.0
+go 1.25
 
 toolchain go1.25.13
 
 require (
 	github.com/btcsuite/btcd v0.24.2
-	github.com/btcsuite/btcd/btcec/v2 v2.3.5
+	github.com/btcsuite/btcd/btcec/v2 v2.5.0
 	github.com/btcsuite/btcd/btcutil v1.1.6
 	github.com/sour-is/bitcoin v0.0.0-20180314143529-d37365313634
 	github.com/timchurchard/opendime-utils v0.0.0-20221122144644-a425c5193651
@@ -20,9 +20,10 @@ require (
 	github.com/FactomProject/btcutilecc v0.0.0-20130527213604-d3a63a5752ec // indirect
 	github.com/ProjectZKM/Ziren/crates/go-runtime/zkvm_runtime v0.0.0-20251001021608-1fe7b43fc4d6 // indirect
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.1.0 // indirect
+	github.com/btcsuite/btcd/chainhash/v2 v2.0.0 // indirect
 	github.com/btcsuite/btclog v0.0.0-20170628155309-84c8d2346e9f // indirect
-	github.com/decred/dcrd/crypto/blake256 v1.0.1 // indirect
-	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.3.0 // indirect
+	github.com/decred/dcrd/crypto/blake256 v1.1.0 // indirect
+	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.4.0 // indirect
 	github.com/ethereum/go-ethereum v1.17.0 // indirect
 	github.com/holiman/uint256 v1.3.2 // indirect
 	github.com/smartystreets/goconvey v1.7.2 // indirect
