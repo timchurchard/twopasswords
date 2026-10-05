@@ -7,7 +7,7 @@ toolchain go1.25.13
 require (
 	github.com/btcsuite/btcd v0.24.2
 	github.com/btcsuite/btcd/btcec/v2 v2.3.5
-	github.com/btcsuite/btcd/btcutil v1.1.6
+	github.com/btcsuite/btcd/btcutil v1.2.0
 	github.com/sour-is/bitcoin v0.0.0-20180314143529-d37365313634
 	github.com/timchurchard/opendime-utils v0.0.0-20221122144644-a425c5193651
 	github.com/tyler-smith/go-bip32 v1.0.0
@@ -25,6 +25,7 @@ require (
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.3.0 // indirect
 	github.com/ethereum/go-ethereum v1.17.0 // indirect
 	github.com/holiman/uint256 v1.3.2 // indirect
+	github.com/kcalvinalvin/anet v0.0.0-20251112173137-d8ddc1f6dbee // indirect
 	github.com/smartystreets/goconvey v1.7.2 // indirect
 	github.com/sour-is/koblitz v0.0.0-20140508155619-28d92784add2 // indirect
 	golang.org/x/sys v0.39.0 // indirect
